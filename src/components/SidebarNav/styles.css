@@ -1,0 +1,15 @@
+.sidebar-wrapper {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-wrapper {
+  padding: 5%;
+}
+
+.logo {
+  height: auto;
+  width: 100%;
+}

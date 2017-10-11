@@ -1,0 +1,12 @@
+.app-wrapper {
+  display: flex;
+  min-height: 100%;
+}
+
+.sidebar-nav {
+  width: 20%;
+}
+
+.app-content {
+  width: 80%;
+}
