@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 
+import Home from './Home';
+
 class HomeContainer extends Component {
+
+  constructor() {
+    super()
+
+    this.state = {
+      selected: 'account'
+    }
+  }
 
   render() {
     return(
-      <div>Home!</div>
+      <Home
+        selected={this.state.selected}
+      />
     )
   }
 }
