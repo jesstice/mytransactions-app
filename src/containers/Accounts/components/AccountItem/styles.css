@@ -1,0 +1,14 @@
+.account-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.single-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-title {
+  font-weight: bold;
+}
