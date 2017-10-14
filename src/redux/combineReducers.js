@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import { transactionsReducer } from './modules/transactions';
+import { dataReducer } from './modules/data';
 
 export default combineReducers({
-    transactions: transactionsReducer
+    data: dataReducer
 });
