@@ -5,7 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Logo from '../../../../assets/piggy-bank.png';
 import './styles.css';
 
-const SidebarNav = () => (
+const SidebarNav = ({ selectedView, displayAccounts, displayTransactions }) => (
   <div className="sidebar-wrapper">
     <Paper className="sidebar-wrapper" zDepth={1}>
       <div className="logo-wrapper">
@@ -17,12 +17,14 @@ const SidebarNav = () => (
           label="Overview"
           fullWidth={true}
           primary
+          onClick={displayAccounts}
         />
         <FlatButton
           className="navigation-button"
           label="Transactions"
           fullWidth={true}
           primary
+          onClick={displayTransactions}
         />
       </div>
     </Paper>
