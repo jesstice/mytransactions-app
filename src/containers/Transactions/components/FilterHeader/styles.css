@@ -1,0 +1,17 @@
+.fheader-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.filter-wrapper {
+  padding: 0 1rem;
+  display: flex;
+  flex-basis: 65%;
+  justify-content: space-between;
+}
+
+.action-buttons {
+  display: flex;
+  flex-basis: 35%;
+  justify-content: space-around;
+}

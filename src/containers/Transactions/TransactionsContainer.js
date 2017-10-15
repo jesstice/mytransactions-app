@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import TransactionWrapper from './components/TransactionWrapper/TransactionWrapper';
+import TransactionWrapper from './components/TransactionWrapper';
 
 class TransactionsContainer extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sorted: false
+    }
+  }
 
   filterTransactionsList = () => {
     let { transactions, accountFilters, categoryFilters } = this.props;
@@ -17,8 +25,21 @@ class TransactionsContainer extends Component {
     return transactions;
   }
 
+  sortTransactionList = (list) => {
+   return list.sort((a, b) => {
+      return new Date(b.transactionDate) - new Date(a.transactionDate)
+    });
+  }
+
+  updateTransactionList = () => {
+    this.setState({ sorted: !this.state.sorted });
+  }
+
   render() {
-    const transactions = this.filterTransactionsList();
+    let transactions = this.filterTransactionsList();
+    if (this.state.sorted) {
+      this.sortTransactionList(transactions)
+    };
   
     return (
         <TransactionWrapper
@@ -27,6 +48,7 @@ class TransactionsContainer extends Component {
           accountFilters={this.props.accountFilters}
           categoriesList={this.props.categoriesList}
           categoryFilters={this.props.categoryFilters}
+          sortByDate={() => this.updateTransactionList}
         />
       );
     }

@@ -1,10 +1,16 @@
 import React from 'react';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import {
+  Card,
+  CardHeader,
+  CardText 
+} from 'material-ui/Card';
 
+import ExpandableItem from './Expandable';
+import RowItem from './Row';
 import './styles.css';
 
 const TransactionItem = ({ transaction }) => (
-  <Card>
+  <Card style={{ borderRadius: 0 }} >
     <CardHeader
       actAsExpander={true}
       showExpandableButton={true}
@@ -14,42 +20,46 @@ const TransactionItem = ({ transaction }) => (
       iconStyle={{ position: 'initial' }}
     />
     <CardText expandable={true}>
-      <div className="expandable">
-        <div className="expandable-item">
-          <span className="trn-title">Transaction Id#: </span>
-          <span className="trn-detail">{transaction.transactionId}</span>
-        </div>
-        <div className="expandable-item">
-          <span className="trn-title">Category: </span>
-          <span className="trn-detail">{transaction.category}</span>
-        </div>
-      </div>
+      <ExpandableItem
+        title="Transaction Id#:"
+        detail={transaction.transactionDate}
+      />
+      <ExpandableItem
+        title="Category"
+        detail={transaction.category}
+      />
     </CardText>
   </Card>
 );
 
 const ItemHeader = ({ transaction }) => (
   <div className="transaction-details">
-    <div className="item-one">
-      <span className="trn-title">Date</span>
-      <span className="trn-detail">{transaction.transactionDate}</span>
-    </div>
-    <div className="item">
-      <span className="trn-title">Account Name</span>
-      <span className="trn-detail">{transaction.accountName}</span>
-    </div>
-    <div className="trn-item">
-      <span className="trn-title">Description</span>
-      <span className="trn-detail">{transaction.description}</span>
-    </div>
-    <div className="trn-item">
-      <span className="trn-title">Amount</span>
-      <span className="trn-detail">${transaction.amount}</span>
-    </div>
-    <div className="trn-item">
-      <span className="trn-title">Balance</span>
-      <span className="trn-detail">${transaction.runningBalance}</span>
-    </div>
+    <RowItem
+      title="Date"
+      detail={transaction.transactionDate}
+      className="first-item"
+    />
+    <RowItem
+      title="Account"
+      detail={transaction.accountName}
+      className="second-item"
+    />
+    <RowItem
+      title="Description"
+      detail={transaction.description}
+      className="third-item"
+    />
+    <RowItem
+      title="Amount"
+      detail={`$${transaction.deposit ? transaction.deposit : transaction.withdrawal}`}
+      className="fourth-item"
+      style={{ color: "red" }}
+    />
+    <RowItem
+      title="Balance"
+      detail={`$${transaction.runningBalance}`}
+      className="fifth-item"
+    />
   </div>
 );
 
