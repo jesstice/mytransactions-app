@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Home from './components/HomeWrapper/';
+import Loader from '../../components/Loader/';
+import { getData } from '../../redux/modules/data';
 
 class HomeContainer extends Component {
 
@@ -14,6 +16,10 @@ class HomeContainer extends Component {
     }
   }
 
+  componentDidMount() {
+    return this.props.dispatch(getData());
+  }
+
   displayAccounts = () => {
     this.setState({ selected: true })
   }
@@ -23,6 +29,7 @@ class HomeContainer extends Component {
   }
 
   render() {
+    if (this.props.loading) return <Loader />;
     return(
       <Home
         selected={this.state.selected}
@@ -33,4 +40,10 @@ class HomeContainer extends Component {
   }
 }
 
-export default HomeContainer;
+function mapStateToProps(state) {
+  return {
+      loading: state.data.isLoading
+  };
+}
+
+export default connect(mapStateToProps)(HomeContainer);

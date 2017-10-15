@@ -7,7 +7,7 @@ const AccountsList = ({ accountsInfo }) => (
   <div className="accountslist-wrapper">
     {
       accountsInfo.map((account) => (
-        <AccountItem key={account.accoundId} accountInfo={account} />
+        <AccountItem key={account.accountId} accountInfo={account} />
       ))
     }
   </div>

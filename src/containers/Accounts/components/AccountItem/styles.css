@@ -4,7 +4,11 @@
   justify-content: space-between;
 }
 
-.single-item {
+.first-item {
+  width: 50%;
+}
+
+.single-item, .first-item {
   display: flex;
   flex-direction: column;
 }
