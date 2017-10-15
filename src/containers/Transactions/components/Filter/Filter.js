@@ -6,7 +6,6 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 const Filter = ({ dispatch, values, hint, selectedValues, onChangeAction }) => (
-
   <SelectField
     multiple
     hintText={hint}
@@ -28,7 +27,7 @@ const Filter = ({ dispatch, values, hint, selectedValues, onChangeAction }) => (
 Filter.propTypes = {
   dispatch: PropTypes.func.isRequired,
   filterValues: PropTypes.arrayOf(PropTypes.string).isRequired,
-  handleChange: PropTypes.func.isRequired
+  onChangeAction: PropTypes.func.isRequired
 };
 
 export default connect()(Filter);

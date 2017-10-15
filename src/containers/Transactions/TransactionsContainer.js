@@ -9,26 +9,27 @@ class TransactionsContainer extends Component {
     let { transactions, accountFilters, categoryFilters } = this.props;
 
     if (accountFilters.length) {
-      return transactions.filter(transaction => accountFilters.includes(transaction.accountName));
+      transactions = transactions.filter(transaction => accountFilters.includes(transaction.accountName));
     }
     if (categoryFilters.length) {
-      return transactions.filter(transaction => categoryFilters.includes(transaction.category));
+      transactions = transactions.filter(transaction => categoryFilters.includes(transaction.category));
     }
     return transactions;
   }
 
   render() {
     const transactions = this.filterTransactionsList();
+  
     return (
-      <TransactionWrapper 
-        transactionsData={transactions}
-        accountsList={this.props.accountsList}
-        accountFilters={this.props.accountFilters}
-        categoriesList={this.props.categoriesList}
-        categoryFilters={this.props.categoryFilters}
-      />
-    );
-  }
+        <TransactionWrapper
+          transactionsData={transactions}
+          accountsList={this.props.accountsList}
+          accountFilters={this.props.accountFilters}
+          categoriesList={this.props.categoriesList}
+          categoryFilters={this.props.categoryFilters}
+        />
+      );
+    }
 }
 
 function mapStateToProps(state) {

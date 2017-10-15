@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Filter from '../Filter/Filter';
-import { filterByAccount, filterByCategory, filterByDate } from '../../../../redux/modules/filters';
+import { filterByAccount, filterByCategory, filterByDate, clearFilterState } from '../../../../redux/modules/filters';
 
-const FilterHeader = ({ accountsList, accountFilters, categoriesList, categoryFilters }) => (
+const FilterHeader = ({ dispatch, accountsList, accountFilters, categoriesList, categoryFilters }) => (
   <div>
     <Filter
       values={accountsList}
@@ -19,7 +20,12 @@ const FilterHeader = ({ accountsList, accountFilters, categoriesList, categoryFi
       onChangeAction={filterByCategory}
       hint="Filter by Category"
     />
+    <RaisedButton
+      label="Clear Filters"
+      primary
+      onClick={() => dispatch(clearFilterState())}
+    />
   </div>
 );
 
-export default FilterHeader;
+export default connect()(FilterHeader);
