@@ -1,5 +1,9 @@
+import { addAccountName, createAccountsList } from '../../lib/helpers';
+
 export const LOAD_DATA_START = 'LOAD_DATA_START';
-export const LOAD_DATA_SUCCESS = 'LOAD_DATA_SUCCESS';
+export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
+export const LOAD_ACCOUNTS_SUCCESS = 'LOAD_ACCOUNTS_SUCCESS';
+export const LOAD_CATEGORIES_SUCCESS = 'LOAD_CATEGORIES_SUCCESS';
 export const LOAD_DATA_ERROR = 'LOAD_DATA_ERROR';
 
 export function loadDataStart() {
@@ -8,14 +12,35 @@ export function loadDataStart() {
   }
 }
 
-export function loadDataSuccess(updatedTransactionData, accounts, categories) {
+export function loadTransactionsSuccess(data) {
   return {
-    type: LOAD_DATA_SUCCESS,
+    type: LOAD_TRANSACTIONS_SUCCESS,
+    payload: data
+  }
+}
+
+export function loadAccountsSuccess(data, list) {
+  return {
+    type: LOAD_ACCOUNTS_SUCCESS,
     payload: {
-      updatedTransactionData,
-      accounts,
-      categories
+      data,
+      list
     }
+  }
+}
+
+export function loadCategoriesSuccess(data) {
+  return {
+    type: LOAD_CATEGORIES_SUCCESS,
+    payload: data
+  }
+}
+
+export function loadDataSuccess(updatedTransactionData, accounts, categories, accountsList) {
+  return function(dispatch) {
+    dispatch(loadAccountsSuccess(accounts, accountsList));
+    dispatch(loadTransactionsSuccess(updatedTransactionData));
+    dispatch(loadCategoriesSuccess(categories));
   }
 }
 
@@ -34,12 +59,9 @@ export function getData() {
         .then(json => {
           const {accounts, transactionData, categories} = json;
           const { transactions } = transactionData;
-          let updatedTransactionData = transactions.map(trn => {
-            const accountName = accounts.find(acct => acct.accountId === trn.accountId);
-            trn.accountName = accountName.accountName; // add account name to transactions
-            return trn;
-          })
-          dispatch(loadDataSuccess(updatedTransactionData, accounts, categories))
+          const updatedTransactionData = addAccountName(transactions, accounts);
+          const accountsList = createAccountsList(accounts);
+          dispatch(loadDataSuccess(updatedTransactionData, accounts, categories, accountsList))
         })
         .catch(e => dispatch(loadDataError(e)))
   }
@@ -48,7 +70,8 @@ export function getData() {
 const initialState = {
   isLoading: true,
   accounts: {},
-  categories: {},
+  accountsList: [],
+  categoriesList: {},
   transactions: {},
   error: null
 }
@@ -57,14 +80,12 @@ export function dataReducer(state = initialState, action) {
   switch(action.type) {
     case LOAD_DATA_START:
       return {...state, isLoading: true};
-    case LOAD_DATA_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        transactions: action.payload.updatedTransactionData,
-        accounts: action.payload.accounts,
-        categories: action.payload.categories
-      };
+    case LOAD_ACCOUNTS_SUCCESS:
+      return {...state, isLoading: false, accounts: action.payload.data, accountsList: action.payload.list};
+    case LOAD_CATEGORIES_SUCCESS:
+      return {...state, isLoading: false, categoriesList: action.payload};
+    case LOAD_TRANSACTIONS_SUCCESS:
+      return {...state, isLoading: false, transactions: action.payload};
     case LOAD_DATA_ERROR:
       return {...state, error: action.payload};
     default:
