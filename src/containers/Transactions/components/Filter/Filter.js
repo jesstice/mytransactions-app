@@ -7,10 +7,12 @@ import MenuItem from 'material-ui/MenuItem';
 
 const Filter = ({ dispatch, values, hint, selectedValues, onChangeAction }) => (
   <SelectField
+    autoWidth
     multiple
     hintText={hint}
     value={selectedValues}
     onChange={(event, index, value) => dispatch(onChangeAction(value))}
+    style={{ width: '45%' }}
   >
     {values.map((value) => (
       <MenuItem
