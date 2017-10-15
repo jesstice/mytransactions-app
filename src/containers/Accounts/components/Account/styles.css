@@ -4,11 +4,11 @@
   justify-content: space-between;
 }
 
-.first-item {
+.account-name {
   width: 50%;
 }
 
-.single-item, .first-item {
+.single-item, .account-name {
   display: flex;
   flex-direction: column;
 }

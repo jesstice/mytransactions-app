@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AccountItem from '../AccountItem/AccountItem';
+import AccountItem from '../Account';
 import './styles.css';
 
 const AccountsList = ({ accountsInfo }) => (
