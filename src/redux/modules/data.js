@@ -1,4 +1,10 @@
-import { addAccountName, createAccountsList } from '../../lib/helpers';
+import { 
+  formatTransactionData,
+  formatAccountData,
+  createAccountsList,
+  formatCategoriesList,
+  calculateAccountsTotal
+} from '../../lib/helpers';
 
 export const LOAD_DATA_START = 'LOAD_DATA_START';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
@@ -19,12 +25,13 @@ export function loadTransactionsSuccess(data) {
   }
 }
 
-export function loadAccountsSuccess(data, list) {
+export function loadAccountsSuccess(data, list, total) {
   return {
     type: LOAD_ACCOUNTS_SUCCESS,
     payload: {
       data,
-      list
+      list,
+      total
     }
   }
 }
@@ -36,10 +43,10 @@ export function loadCategoriesSuccess(data) {
   }
 }
 
-export function loadDataSuccess(updatedTransactionData, accounts, categories, accountsList) {
+export function loadDataSuccess(transactions, accounts, accountsList, accountsTotal, categories) {
   return function(dispatch) {
-    dispatch(loadAccountsSuccess(accounts, accountsList));
-    dispatch(loadTransactionsSuccess(updatedTransactionData));
+    dispatch(loadAccountsSuccess(accounts, accountsList, accountsTotal));
+    dispatch(loadTransactionsSuccess(transactions));
     dispatch(loadCategoriesSuccess(categories));
   }
 }
@@ -59,9 +66,12 @@ export function getData() {
         .then(json => {
           const {accounts, transactionData, categories} = json;
           const { transactions } = transactionData;
-          const updatedTransactionData = addAccountName(transactions, accounts);
+          const updatedTransactionData = formatTransactionData(transactions, accounts);
+          const updatedAccountsData = formatAccountData(accounts);
+          const categoriesList = formatCategoriesList(categories);
           const accountsList = createAccountsList(accounts);
-          dispatch(loadDataSuccess(updatedTransactionData, accounts, categories, accountsList))
+          const accountsTotal = calculateAccountsTotal(accounts);
+          dispatch(loadDataSuccess(updatedTransactionData, updatedAccountsData, accountsList, accountsTotal, categoriesList))
         })
         .catch(e => dispatch(loadDataError(e)))
   }
@@ -71,6 +81,7 @@ const initialState = {
   isLoading: true,
   accounts: {},
   accountsList: [],
+  accountsTotal: null,
   categoriesList: {},
   transactions: {},
   error: null
@@ -81,7 +92,13 @@ export function dataReducer(state = initialState, action) {
     case LOAD_DATA_START:
       return {...state, isLoading: true};
     case LOAD_ACCOUNTS_SUCCESS:
-      return {...state, isLoading: false, accounts: action.payload.data, accountsList: action.payload.list};
+      return {
+        ...state,
+        isLoading: false,
+        accounts: action.payload.data,
+        accountsList: action.payload.list,
+        accountsTotal: action.payload.total
+      };
     case LOAD_CATEGORIES_SUCCESS:
       return {...state, isLoading: false, categoriesList: action.payload};
     case LOAD_TRANSACTIONS_SUCCESS:
