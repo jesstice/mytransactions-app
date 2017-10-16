@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
 
+import NavButton from './NavButton';
 import Logo from '../../../../assets/piggy-bank.png';
 import './styles.css';
 
@@ -12,19 +12,15 @@ const SidebarNav = ({ selectedView, displayAccounts, displayTransactions }) => (
         <img className="logo" src={Logo} alt="logo" />
       </div>
       <div className="button-wrapper">
-        <FlatButton
-          className="navigation-button"
+        <NavButton
           label="Overview"
-          fullWidth={true}
-          primary
           onClick={displayAccounts}
+          selectedView={selectedView ? true : false}
         />
-        <FlatButton
-          className="navigation-button"
+        <NavButton 
           label="Transactions"
-          fullWidth={true}
-          primary
           onClick={displayTransactions}
+          selectedView={selectedView ? false : true}
         />
       </div>
     </Paper>

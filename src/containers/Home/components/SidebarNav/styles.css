@@ -6,7 +6,7 @@
 }
 
 .logo-wrapper {
-  padding: 5%;
+  padding: 10%;
   flex-basis: 30%;
 }
 
@@ -17,4 +17,8 @@
 
 .button-wrapper {
   flex-basis: 70%;
+}
+
+.navigation-button {
+  padding: 10rem 0;
 }

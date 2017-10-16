@@ -25,7 +25,7 @@ const TransactionItem = ({ transaction }) => (
         detail={transaction.transactionDate}
       />
       <ExpandableItem
-        title="Category"
+        title="Category:"
         detail={transaction.category}
       />
     </CardText>

@@ -42,8 +42,12 @@ class HomeContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-      loading: state.data.isLoading
+    loading: state.data.isLoading
   };
+}
+
+HomeContainer.propTypes = {
+  loading: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps)(HomeContainer);

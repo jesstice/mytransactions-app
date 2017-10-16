@@ -1,6 +1,7 @@
 .app-wrapper {
-  display: flex;
   min-height: 100%;
+  display: flex;
+  background-color: #CFD8DC;
 }
 
 .sidebar-nav {

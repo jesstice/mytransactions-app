@@ -21,7 +21,7 @@ const Account = ({ accountInfo }) => (
       />
       <AccountItem 
         title="Balance"
-        detail={accountInfo.balance}
+        detail={`$${accountInfo.balance}`}
         className="single-item"
       />
       <AccountItem 
