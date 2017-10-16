@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import TransactionWrapper from './components/TransactionWrapper';
@@ -9,7 +10,7 @@ class TransactionsContainer extends Component {
     super(props);
 
     this.state = {
-      sorted: false
+      sortRecent: false
     }
   }
 
@@ -25,22 +26,28 @@ class TransactionsContainer extends Component {
     return transactions;
   }
 
-  sortTransactionList = (list) => {
+  sortTransactionList = (list, sort) => {
    return list.sort((a, b) => {
-      return new Date(b.transactionDate) - new Date(a.transactionDate)
+      if (sort) {
+        return new Date(b.transactionDate) - new Date(a.transactionDate)
+      } else {
+        return new Date(a.transactionDate) - new Date(b.transactionDate)
+      }
     });
   }
 
   updateTransactionList = () => {
-    this.setState({ sorted: !this.state.sorted });
+    this.setState({ sortRecent: !this.state.sortRecent });
   }
 
   render() {
     let transactions = this.filterTransactionsList();
-    if (this.state.sorted) {
+    if (this.state.sortRecent) {
+      this.sortTransactionList(transactions, true)
+    } else {
       this.sortTransactionList(transactions)
     };
-  
+
     return (
         <TransactionWrapper
           transactionsData={transactions}
@@ -48,7 +55,7 @@ class TransactionsContainer extends Component {
           accountFilters={this.props.accountFilters}
           categoriesList={this.props.categoriesList}
           categoryFilters={this.props.categoryFilters}
-          sortByDate={() => this.updateTransactionList}
+          sortByDate={this.updateTransactionList}
         />
       );
     }
@@ -63,6 +70,27 @@ function mapStateToProps(state) {
     categoryFilters: state.filters.categoryFilters,
     dateFilters: state.filters.dateFilters
   };
+}
+
+TransactionsContainer.propTypes = {
+  accountFilters: PropTypes.array,
+  accountsList: PropTypes.arrayOf(PropTypes.string),
+  categoryFilters: PropTypes.array,
+  categoriesList: PropTypes.arrayOf(PropTypes.string),
+  dispatch: PropTypes.func,
+  transactions: PropTypes.arrayOf(
+    PropTypes.shape({
+      accountId: PropTypes.string,
+      accountName: PropTypes.string,
+      amount: PropTypes.number,
+      category: PropTypes.string,
+      deposit: PropTypes.number,
+      description: PropTypes.string,
+      runningBalance: PropTypes.number,
+      transactionDate: PropTypes.string,
+      transactionId: PropTypes.string,
+    })
+  )
 }
 
 export default connect(mapStateToProps)(TransactionsContainer);

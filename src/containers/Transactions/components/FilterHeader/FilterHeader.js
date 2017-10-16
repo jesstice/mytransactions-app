@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Filter from '../Filter/Filter';
-import { filterByAccount, filterByCategory, filterByDate, clearFilterState } from '../../../../redux/modules/filters';
+import { filterByAccount, filterByCategory, clearFilterState } from '../../../../redux/modules/filters';
 import './styles.css';
 
 const FilterHeader = ({ dispatch, accountsList, accountFilters, categoriesList, categoryFilters, sortByDate }) => (
