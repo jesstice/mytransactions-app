@@ -8,14 +8,18 @@ class AccountsContainer extends Component {
 
   render() {
     return(
-      <AccountsList accountsInfo={this.props.accountsInfo} />
+      <AccountsList 
+        accountsInfo={this.props.accountsInfo}
+        accountsTotal={this.props.accountsTotal}
+      />
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    accountsInfo: state.data.accounts
+    accountsInfo: state.data.accounts,
+    accountsTotal: state.data.accountsTotal
   };
 }
 
@@ -30,6 +34,7 @@ AccountsContainer.propTypes = {
       transitNumber: PropTypes.string,
     })
   ),
+  accountsTotal: PropTypes.number,
   dispatch: PropTypes.func
 }
 

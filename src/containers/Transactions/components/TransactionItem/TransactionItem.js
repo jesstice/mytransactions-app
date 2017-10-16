@@ -22,7 +22,7 @@ const TransactionItem = ({ transaction }) => (
     <CardText expandable={true}>
       <ExpandableItem
         title="Transaction Id#:"
-        detail={transaction.transactionDate}
+        detail={transaction.transactionId}
       />
       <ExpandableItem
         title="Category:"
@@ -35,28 +35,23 @@ const TransactionItem = ({ transaction }) => (
 const ItemHeader = ({ transaction }) => (
   <div className="transaction-details">
     <RowItem
-      title="Date"
       detail={transaction.transactionDate}
       className="first-item"
     />
     <RowItem
-      title="Account"
       detail={transaction.accountName}
       className="second-item"
     />
     <RowItem
-      title="Description"
       detail={transaction.description}
       className="third-item"
     />
     <RowItem
-      title="Amount"
       detail={`$${transaction.deposit ? transaction.deposit : transaction.withdrawal}`}
       className="fourth-item"
-      style={{ color: "red" }}
+      style={ transaction.withdrawal ? { color: "red" } : null}
     />
     <RowItem
-      title="Balance"
       detail={`$${transaction.runningBalance}`}
       className="fifth-item"
     />

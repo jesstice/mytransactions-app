@@ -82,7 +82,7 @@ TransactionsContainer.propTypes = {
     PropTypes.shape({
       accountId: PropTypes.string,
       accountName: PropTypes.string,
-      amount: PropTypes.number,
+      amount: PropTypes.string,
       category: PropTypes.string,
       deposit: PropTypes.number,
       description: PropTypes.string,
