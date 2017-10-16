@@ -1,19 +1,18 @@
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
-  blue500,
-  indigo500,
-  grey700,
-  yellow200,
   deepOrange200,
+  blueGrey800,
+  lightBlue600,
+  lightBlue900,
   white
 } from 'material-ui/styles/colors';
 
 export default getMuiTheme({
   palette: {
-    textColor: indigo500,
+    textColor: blueGrey800,
     alternateTextColor: white,
-    primary1Color: indigo500,
+    primary1Color: lightBlue600,
     accent1Color: deepOrange200,
-    secondaryColor: yellow200
+    secondaryColor: lightBlue900
   }
 });

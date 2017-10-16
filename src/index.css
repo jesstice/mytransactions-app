@@ -56,7 +56,7 @@ table {
 }
 
 body {
-    background: linear-gradient(#4BA3C7, #B6FFFF);
+    /* background: linear-gradient(#4BA3C7, #B6FFFF); */
     background-attachment: fixed;
     background-size: cover;
     display: flex;
