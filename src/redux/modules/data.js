@@ -7,21 +7,14 @@ import {
 } from '../../lib/helpers';
 
 const LOAD_DATA_START = 'LOAD_DATA_START';
-const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 const LOAD_ACCOUNTS_SUCCESS = 'LOAD_ACCOUNTS_SUCCESS';
 const LOAD_CATEGORIES_SUCCESS = 'LOAD_CATEGORIES_SUCCESS';
+const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 const LOAD_DATA_ERROR = 'LOAD_DATA_ERROR';
 
 export function loadDataStart() {
   return {
     type: LOAD_DATA_START
-  }
-}
-
-export function loadTransactionsSuccess(data) {
-  return {
-    type: LOAD_TRANSACTIONS_SUCCESS,
-    payload: data
   }
 }
 
@@ -39,6 +32,13 @@ export function loadAccountsSuccess(data, list, total) {
 export function loadCategoriesSuccess(data) {
   return {
     type: LOAD_CATEGORIES_SUCCESS,
+    payload: data
+  }
+}
+
+export function loadTransactionsSuccess(data) {
+  return {
+    type: LOAD_TRANSACTIONS_SUCCESS,
     payload: data
   }
 }

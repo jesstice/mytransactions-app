@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import TransactionWrapper from './components/TransactionWrapper';
-import { findStartAndEndDates, selectDateStart, selectDateEnd, updateFilterByDate, completeDateSelection } from '../../redux/modules/filters';
+import { findStartAndEndDates, selectDateStart, completeDateSelection } from '../../redux/modules/filters';
 
 class TransactionsContainer extends Component {
 
@@ -36,11 +36,11 @@ class TransactionsContainer extends Component {
       this.sortTransactionList(this.state.filteredTransactions, true)
     } else {
       this.sortTransactionList(this.state.filteredTransactions)
-    };
+    }
   }
 
   filterTransactionsList = (date) => {
-    let { transactions, accountFilters, categoryFilters, dateStart, dateEnd } = this.props;
+    let { transactions, accountFilters, categoryFilters } = this.props;
 
     if (accountFilters.length) {
       transactions = transactions.filter(transaction => accountFilters.includes(transaction.accountName));
@@ -76,11 +76,11 @@ class TransactionsContainer extends Component {
   }
 
   handleChangeStartDate = (event, date) => {
-    return this.props.dispatch(selectDateStart(date));
+    this.props.dispatch(selectDateStart(date));
   }
 
   handleChangeEndDate = (event, date) => {
-    return this.props.dispatch(completeDateSelection(date));
+    this.props.dispatch(completeDateSelection(date));
   }
 
   render() {
@@ -127,7 +127,7 @@ TransactionsContainer.propTypes = {
     PropTypes.shape({
       accountId: PropTypes.string,
       accountName: PropTypes.string,
-      amount: PropTypes.string,
+      amount: PropTypes.number,
       category: PropTypes.string,
       deposit: PropTypes.number,
       description: PropTypes.string,
