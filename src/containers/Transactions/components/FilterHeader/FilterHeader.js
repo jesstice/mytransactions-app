@@ -4,10 +4,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import DatePicker from '../DatePicker/DatePicker';
 import Filter from '../Filter/Filter';
-import { filterByAccount, filterByCategory, clearFilterState } from '../../../../redux/modules/filters';
+import { filterByAccount, filterByCategory } from '../../../../redux/modules/filters';
 import './styles.css';
 
-const FilterHeader = ({ dispatch, accountsList, accountFilters, categoriesList, categoryFilters, sortByDate, dateStart, dateEnd, handleChangeStartDate, handleChangeEndDate }) => (
+const FilterHeader = ({ dispatch, accountsList, accountFilters, categoriesList, categoryFilters, sortByDate, dateStart, dateEnd, handleChangeStartDate, handleChangeEndDate, clearAllFilters }) => (
   <div className="fheader-wrapper">
     <div className="filter-wrapper">
       <Filter
@@ -32,7 +32,7 @@ const FilterHeader = ({ dispatch, accountsList, accountFilters, categoriesList, 
       <RaisedButton
         label="Clear Filters"
         primary
-        onClick={() => dispatch(clearFilterState())}
+        onClick={clearAllFilters}
       />
     </div>
     <div className="date-pickers">

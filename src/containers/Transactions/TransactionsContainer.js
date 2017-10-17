@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import TransactionWrapper from './components/TransactionWrapper';
-import { findStartAndEndDates, selectDateStart, completeDateSelection } from '../../redux/modules/filters';
+import { findStartAndEndDates, selectDateStart, completeDateSelection, clearFilterState } from '../../redux/modules/filters';
 
 class TransactionsContainer extends Component {
 
@@ -40,7 +40,9 @@ class TransactionsContainer extends Component {
   }
 
   filterTransactionsList = (date) => {
-    let { transactions, accountFilters, categoryFilters } = this.props;
+    const { accountFilters, categoryFilters } = this.props;
+    let transactions;
+    (this.props.transactions.length !== this.state.filteredTransactions.length) ? transactions = this.props.transactions : transactions = this.state.filteredTransactions;
 
     if (accountFilters.length) {
       transactions = transactions.filter(transaction => accountFilters.includes(transaction.accountName));
@@ -83,6 +85,10 @@ class TransactionsContainer extends Component {
     this.props.dispatch(completeDateSelection(date));
   }
 
+  clearAllFilters = () => {
+    this.props.dispatch(clearFilterState());
+  }
+
   render() {
     return (
         <TransactionWrapper
@@ -91,6 +97,7 @@ class TransactionsContainer extends Component {
           accountFilters={this.props.accountFilters}
           categoriesList={this.props.categoriesList}
           categoryFilters={this.props.categoryFilters}
+          clearAllFilters={this.clearAllFilters}
           sortByDate={this.updateTransactionList}
           dateStart={this.props.dateStart}
           dateEnd={this.props.dateEnd}
@@ -129,9 +136,9 @@ TransactionsContainer.propTypes = {
       accountName: PropTypes.string,
       amount: PropTypes.number,
       category: PropTypes.string,
-      deposit: PropTypes.number,
+      deposit: PropTypes.string,
       description: PropTypes.string,
-      runningBalance: PropTypes.number,
+      runningBalance: PropTypes.string,
       transactionDate: PropTypes.string,
       transactionId: PropTypes.string,
     })

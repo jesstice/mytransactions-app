@@ -3,6 +3,8 @@ const FILTER_BY_CATEGORY = 'FILTER_BY_CATEGORY';
 const FILTER_BY_DATE = 'FILTER_BY_DATE';
 const SELECT_DATE_START = 'SELECT_DATE_START';
 const SELECT_DATE_END = 'SELECT_DATE_END';
+const SET_INITIAL_DATE_START = 'SET_INITIAL_DATE_START';
+const SET_INITIAL_DATE_END = 'SET_INITIAL_DATE_END';
 const CLEAR_FILTERS = 'CLEAR_FILTERS';
 
 export function filterByAccount(filters) {
@@ -25,6 +27,19 @@ export function updateFilterByDate() {
   };
 }
 
+export function setInitialDateStart(date) {
+  return {
+    type: SET_INITIAL_DATE_START,
+    payload: date
+  }
+}
+
+export function setInitialDateEnd(date) {
+  return {
+    type: SET_INITIAL_DATE_END,
+    payload: date
+  }
+}
 
 export function selectDateStart(date) {
   return {
@@ -49,6 +64,8 @@ export function completeDateSelection(date) {
 
 export function setInitialDates(start, end) {
   return function(dispatch) {
+    dispatch(setInitialDateStart(start));
+    dispatch(setInitialDateEnd(end));
     dispatch(selectDateStart(start));
     dispatch(selectDateEnd(end));
   }
@@ -76,6 +93,8 @@ const initialState = {
   categoryFilters: [],
   dateStart: {},
   dateEnd: {},
+  initialDateStart: {},
+  initialDateEnd: {},
   filterByDate: false
 };
 
@@ -89,16 +108,21 @@ export function filtersReducer(state = initialState, action) {
       const filterState = {...state};
       filterState.filterByDate = !filterState.filterByDate;
       return filterState;
+    case SET_INITIAL_DATE_START:
+      return {...state, initialDateStart: action.payload};
+    case SET_INITIAL_DATE_END:
+      return {...state, initialDateEnd: action.payload};
     case SELECT_DATE_START:
       return {...state, dateStart: action.payload};
     case SELECT_DATE_END:
       return {...state, dateEnd: action.payload};
     case CLEAR_FILTERS:
-      return {
-        ...state,
-        accountFilters: [],
-        categoryFilters: []
-      }
+      const clearFilterState = {...state};
+      clearFilterState.accountFilters = [];
+      clearFilterState.categoryFilters = [];
+      clearFilterState.dateStart = clearFilterState.initialDateStart;
+      clearFilterState.dateEnd = clearFilterState.initialDateEnd;
+      return clearFilterState;
     default:
       return state;
   }
