@@ -3,19 +3,44 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import TransactionWrapper from './components/TransactionWrapper';
+import { findStartAndEndDates, selectDateStart, selectDateEnd, updateFilterByDate, completeDateSelection } from '../../redux/modules/filters';
 
 class TransactionsContainer extends Component {
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
 
     this.state = {
-      sortRecent: false
+      sortRecent: false,
+      filteredTransactions: []
     }
   }
 
-  filterTransactionsList = () => {
-    let { transactions, accountFilters, categoryFilters } = this.props;
+  componentWillMount() {
+    const { transactions } = this.props;
+    this.setState({ filteredTransactions: transactions });
+    this.props.dispatch(findStartAndEndDates(transactions));
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.accountFilters !== this.props.accountFilters) {
+      this.filterTransactionsList();
+    }
+    if (prevProps.categoryFilters !== this.props.categoryFilters) {
+      this.filterTransactionsList();
+    }
+    if (prevProps.dateFilter !== this.props.dateFilter) {
+      this.filterTransactionsByDate();
+    }
+    if (this.state.sortRecent) {
+      this.sortTransactionList(this.state.filteredTransactions, true)
+    } else {
+      this.sortTransactionList(this.state.filteredTransactions)
+    };
+  }
+
+  filterTransactionsList = (date) => {
+    let { transactions, accountFilters, categoryFilters, dateStart, dateEnd } = this.props;
 
     if (accountFilters.length) {
       transactions = transactions.filter(transaction => accountFilters.includes(transaction.accountName));
@@ -23,15 +48,25 @@ class TransactionsContainer extends Component {
     if (categoryFilters.length) {
       transactions = transactions.filter(transaction => categoryFilters.includes(transaction.category));
     }
-    return transactions;
+    this.setState({ filteredTransactions: transactions });
+  }
+
+  filterTransactionsByDate = () => {
+    let transactions = this.state.filteredTransactions;
+    const { dateStart, dateEnd } = this.props;
+
+    transactions = transactions.filter((transaction) => {
+      return transaction.dateObject >= dateStart && transaction.dateObject <= dateEnd
+    });
+    this.setState({ filteredTransactions: transactions });
   }
 
   sortTransactionList = (list, sort) => {
    return list.sort((a, b) => {
       if (sort) {
-        return new Date(b.transactionDate) - new Date(a.transactionDate)
+        return b.dateObject - a.dateObject
       } else {
-        return new Date(a.transactionDate) - new Date(b.transactionDate)
+        return a.dateObject - b.dateObject
       }
     });
   }
@@ -40,22 +75,27 @@ class TransactionsContainer extends Component {
     this.setState({ sortRecent: !this.state.sortRecent });
   }
 
-  render() {
-    let transactions = this.filterTransactionsList();
-    if (this.state.sortRecent) {
-      this.sortTransactionList(transactions, true)
-    } else {
-      this.sortTransactionList(transactions)
-    };
+  handleChangeStartDate = (event, date) => {
+    return this.props.dispatch(selectDateStart(date));
+  }
 
+  handleChangeEndDate = (event, date) => {
+    return this.props.dispatch(completeDateSelection(date));
+  }
+
+  render() {
     return (
         <TransactionWrapper
-          transactionsData={transactions}
+          transactionsData={this.state.filteredTransactions}
           accountsList={this.props.accountsList}
           accountFilters={this.props.accountFilters}
           categoriesList={this.props.categoriesList}
           categoryFilters={this.props.categoryFilters}
           sortByDate={this.updateTransactionList}
+          dateStart={this.props.dateStart}
+          dateEnd={this.props.dateEnd}
+          handleChangeStartDate={this.handleChangeStartDate}
+          handleChangeEndDate={this.handleChangeEndDate}
         />
       );
     }
@@ -68,7 +108,9 @@ function mapStateToProps(state) {
     accountFilters: state.filters.accountFilters,
     categoriesList: state.data.categoriesList,
     categoryFilters: state.filters.categoryFilters,
-    dateFilters: state.filters.dateFilters
+    dateStart: state.filters.dateStart,
+    dateEnd: state.filters.dateEnd,
+    dateFilter: state.filters.filterByDate
   };
 }
 
@@ -77,6 +119,9 @@ TransactionsContainer.propTypes = {
   accountsList: PropTypes.arrayOf(PropTypes.string),
   categoryFilters: PropTypes.array,
   categoriesList: PropTypes.arrayOf(PropTypes.string),
+  dateEnd: PropTypes.object,
+  dateFilter: PropTypes.bool,
+  dateStart: PropTypes.object,
   dispatch: PropTypes.func,
   transactions: PropTypes.arrayOf(
     PropTypes.shape({

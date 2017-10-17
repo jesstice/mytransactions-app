@@ -13,6 +13,8 @@ export default getMuiTheme({
     alternateTextColor: white,
     primary1Color: lightBlue600,
     accent1Color: deepOrange200,
-    secondaryColor: lightBlue900
-  }
+    secondaryColor: lightBlue900,
+    primary2Color: lightBlue600,
+    pickerHeaderColor: lightBlue600
+  },
 });

@@ -6,11 +6,11 @@ import {
   calculateAccountsTotal
 } from '../../lib/helpers';
 
-export const LOAD_DATA_START = 'LOAD_DATA_START';
-export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
-export const LOAD_ACCOUNTS_SUCCESS = 'LOAD_ACCOUNTS_SUCCESS';
-export const LOAD_CATEGORIES_SUCCESS = 'LOAD_CATEGORIES_SUCCESS';
-export const LOAD_DATA_ERROR = 'LOAD_DATA_ERROR';
+const LOAD_DATA_START = 'LOAD_DATA_START';
+const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
+const LOAD_ACCOUNTS_SUCCESS = 'LOAD_ACCOUNTS_SUCCESS';
+const LOAD_CATEGORIES_SUCCESS = 'LOAD_CATEGORIES_SUCCESS';
+const LOAD_DATA_ERROR = 'LOAD_DATA_ERROR';
 
 export function loadDataStart() {
   return {
@@ -83,8 +83,8 @@ const initialState = {
   accountsList: [],
   accountsTotal: null,
   categoriesList: {},
-  transactions: {},
-  error: null
+  error: null,
+  transactions: {}
 }
 
 export function dataReducer(state = initialState, action) {

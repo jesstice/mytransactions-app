@@ -16,7 +16,7 @@ class HomeContainer extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     return this.props.dispatch(getData());
   }
 

@@ -1,9 +1,11 @@
 .fheader-wrapper {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .filter-wrapper {
+  max-width: 65%;
   padding: 0 1rem;
   display: flex;
   flex-basis: 65%;
@@ -11,7 +13,18 @@
 }
 
 .action-buttons {
+  max-width: 35%;
   display: flex;
   flex-basis: 35%;
   justify-content: space-around;
+}
+
+.date-pickers {
+  padding: 0 1rem;
+  flex-basis: 65%;
+}
+
+.date-range-wrapper {
+  display: flex;
+  justify-content: space-between;
 }

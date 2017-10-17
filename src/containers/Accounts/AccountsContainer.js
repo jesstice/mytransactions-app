@@ -28,7 +28,7 @@ AccountsContainer.propTypes = {
     PropTypes.shape({
       accountName: PropTypes.string,
       accountNumber: PropTypes.string,
-      balance: PropTypes.number,
+      balance: PropTypes.string,
       balanceUpdated: PropTypes.string,
       institutionName: PropTypes.string,
       transitNumber: PropTypes.string,

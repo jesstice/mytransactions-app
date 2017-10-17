@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const addAccountName = (id, accounts) => {
   const accountName = accounts.find(acct => acct.accountId === id);
   return accountName.accountName;
@@ -11,12 +13,17 @@ const removeUnderscoreCaps = (string) => {
   return string.replace(/_/g, " ").split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 }
 
+const setDateObject = (date) => {
+  return moment(date, "YYYY-MM-DD").toDate();
+}
+
 export const formatTransactionData = (data, accounts) => {
   return data.map(trn => {
     trn.accountName = addAccountName(trn.accountId, accounts);
     trn.category = trn.category ? removeUnderscoreCaps(trn.category) : null;
     (trn.withdrawal) ? trn.withdrawal = roundecimal(trn.withdrawal) : trn.deposit = roundecimal(trn.deposit);
     trn.runningBalance = roundecimal(trn.runningBalance);
+    trn.dateObject = setDateObject(trn.transactionDate);
     return trn;
   })
 }
